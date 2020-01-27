@@ -44,7 +44,7 @@ spec:
       steps {
         container('maven') {
           sh """
-                        mvn package -DskipTests
+                        mvn clean install -DskipTests
                                                 """
         }
       }
