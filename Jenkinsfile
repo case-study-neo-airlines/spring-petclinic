@@ -1,4 +1,4 @@
-podTemplate(containers: [
+upodTemplate(containers: [
   containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat')
   ]) {
 
@@ -12,7 +12,7 @@ podTemplate(containers: [
       }
     }
     stage('Build Docker image') {
-      sh "docker build -t ${env.IMAGE}:${TAG} ."
+      sh "docker build -t test:1.0.0 ."
     }
   }
 }
