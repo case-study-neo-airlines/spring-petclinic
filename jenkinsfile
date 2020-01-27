@@ -1,0 +1,19 @@
+pipeline {
+  agent none
+
+  stages {
+    stage('Build-war') {
+      println "Building WAR file"
+    }
+    stage('Build-img') {
+      println "Building Docker image"
+    }
+    stage('dev-deployment') {
+      println "Deploying to Dev"
+    }
+    stage('test-deployment') {
+      println "Deployingt o test"
+    }
+  }
+  
+}
