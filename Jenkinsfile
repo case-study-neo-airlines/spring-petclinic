@@ -3,9 +3,17 @@ podTemplate(containers: [
   ]) {
 
   node(POD_LABEL) {
+    stage('Check out source code') {
+      checkout scm
+    }
     stage('Build a Maven project') {
       container('maven') {
           sh 'mvn  clean'
+         
+        configFileProvider([configFile(fileId: 'nexus', variable: 'MAVEN_SETTINGS')]) {
+          sh 'mvn -s $MAVEN_SETTINGS clean deploy -DskipTests=true -B'
+        }
+      
       }
     }
   }
