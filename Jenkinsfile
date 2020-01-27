@@ -6,7 +6,7 @@ pipeline {
     stage('Build-war') {
       agent {
         docker {
-          image 'maven:3.5.0'
+          image 'maven:3.6.3-jdk-14'
           args '-e INITIAL_ADMIN_USER -e INITIAL_ADMIN_PASSWORD --network=${LDOP_NETWORK_NAME}'
         }
       }
