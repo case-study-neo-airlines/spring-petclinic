@@ -18,9 +18,6 @@ podTemplate(containers: [
           sh 'mvn  clean install -DskipTest'   
       }
     }
-    stage('Build Docker image') {
-      sh "docker build -t test:1.0.0 ."
-    }
     
     stage('Build a Docker image project') {
       container('gcloud') {
