@@ -1,6 +1,5 @@
-def project = 'REPLACE_WITH_YOUR_PROJECT_ID'
-def  appName = 'gceme'
-def  feSvcName = "${appName}-frontend"
+def project = 'neoairlines'
+def  appName = 'petclinic'
 def  imageTag = "gcr.io/${project}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
 
 
@@ -21,7 +20,7 @@ podTemplate(containers: [
     
     stage('Build a Docker image project') {
       container('gcloud') {
-          sh "PYTHONUNBUFFERED=1 gcloud builds submit -t ${imageTag} ."
+          sh "gcloud builds submit -t ${imageTag} ."
       }
     }
   }
