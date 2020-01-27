@@ -1,7 +1,12 @@
+def project = 'neo'
+def  appName = 'petclinic'
+def  feSvcName = "${appName}-frontend"
+def  imageTag = "gcr.io/${project}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
+
 pipeline {
   agent {
     kubernetes {
-      label 'spring-petclinic'
+      label 'sample-app'
       defaultContainer 'jnlp'
       yaml """
 apiVersion: v1
@@ -13,57 +18,40 @@ spec:
   # Use service account that can deploy to all namespaces
   serviceAccountName: cd-jenkins
   containers:
-  - name: maven
-    image: maven:latest
+  - name: golang
+    image: golang:1.10
     command:
     - cat
     tty: true
-    volumeMounts:
-      - mountPath: "/root/.m2"
-        name: m2
-  - name: docker
-    image: docker:latest
+  - name: gcloud
+    image: gcr.io/cloud-builders/gcloud
     command:
     - cat
     tty: true
-    volumeMounts:
-    - mountPath: /var/run/docker.sock
-      name: docker-sock
-  volumes:
-    - name: docker-sock
-      hostPath:
-        path: /var/run/docker.sock
-    - name: m2
-      persistentVolumeClaim:
-        claimName: m2
+  - name: kubectl
+    image: gcr.io/cloud-builders/kubectl
+    command:
+    - cat
+    tty: true
 """
 }
-   }
+  }
   stages {
-    stage('Build') {
-      steps {
-        container('maven') {
-          sh """
-                        mvn clean install -DskipTests
-                                                """
-        }
-      }
-    }
     stage('Test') {
       steps {
-        container('maven') {
+        container('golang') {
           sh """
-             mvn test
+            ln -s `pwd` /go/src/sample-app
+            cd /go/src/sample-app
+            go test
           """
         }
       }
     }
-    stage('Push') {
+    stage('Build and push image with Container Builder') {
       steps {
-        container('docker') {
-          sh """
-             docker build -t spring-petclinic-demo:$BUILD_NUMBER .
-          """
+        container('gcloud') {
+          sh "PYTHONUNBUFFERED=1 gcloud builds submit -t ${imageTag} ."
         }
       }
     }
