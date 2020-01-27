@@ -14,7 +14,7 @@ podTemplate(containers: [
     }
     stage('Build a Maven project') {
       container('maven') {
-          sh 'mvn  clean install -DskipTest'   
+          sh 'mvn  clean install -DskipTests'   
       }
     }
     
