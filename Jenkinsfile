@@ -8,12 +8,7 @@ podTemplate(containers: [
     }
     stage('Build a Maven project') {
       container('maven') {
-          sh 'mvn  clean'
-         
-        configFileProvider([configFile(fileId: 'nexus', variable: 'MAVEN_SETTINGS')]) {
-          sh 'mvn -s $MAVEN_SETTINGS clean deploy -DskipTests=true -B'
-        }
-      
+          sh 'mvn  clean deploy'   
       }
     }
   }
