@@ -11,5 +11,8 @@ podTemplate(containers: [
           sh 'mvn  clean install -DskipTest'   
       }
     }
+    stage('Build Docker image') {
+      sh "docker build -t ${env.IMAGE}:${TAG} ."
+    }
   }
 }
