@@ -20,7 +20,7 @@ podTemplate(containers: [
     
     stage('Build a Docker image project') {
       container('gcloud') {
-          sh "gcloud builds submit -t ${imageTag} ."
+          sh "gcloud config set project neoairlines && gcloud builds submit -t ${imageTag} ."
       }
     }
   }
