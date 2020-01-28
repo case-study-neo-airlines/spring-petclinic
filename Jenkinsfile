@@ -33,7 +33,7 @@ podTemplate(containers: [
       container('gcloud') {
           sh """gcloud auth activate-service-account  neoowner@neoairlines.iam.gserviceaccount.com --key-file neoairlines-30baa3cf30d8.json \
           && gcloud components install kubectl && gcloud container clusters get-credentials my-gke-cluster --region us-central1 --project neoairlines &&\
-          gcloud config set project neoairlines && kubectl create deployment hello-web --image=${imageTag} -n dev"""
+          gcloud config set project neoairlines && kubectl create deployment petclinic-${env.BUILD_NUMBER} --image=${imageTag} -n dev"""
       }
     }
     
