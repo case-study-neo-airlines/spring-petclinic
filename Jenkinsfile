@@ -23,6 +23,7 @@ podTemplate(containers: [
     
     stage('Build a Docker image project') {
       container('gcloud') {
+          sh 'ls -ltr target/*.jar' 
           sh """gcloud auth activate-service-account  neoowner@neoairlines.iam.gserviceaccount.com --key-file neoairlines-30baa3cf30d8.json \
           && gcloud config set project neoairlines && gcloud builds submit -t ${imageTag} ."""
       }
