@@ -1,6 +1,6 @@
 def project = 'neoairlines'
 def  appName = 'petclinic'
-def  imageTag = "gcr.io/${project}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
+def  imageTag = "gcr.io/${project}/${appName}:${env.BUILD_NUMBER}"
 
 
 podTemplate(containers: [
@@ -20,7 +20,8 @@ podTemplate(containers: [
     
     stage('Build a Docker image project') {
       container('gcloud') {
-          sh "gcloud config set project neoairlines && gcloud builds submit -t ${imageTag} ."
+          sh """gcloud auth activate-service-account 889508994128-compute@developer.gserviceaccount.com --key-file .\neoairlines-30baa3cf30d8.json&&
+        gcloud config set project neoairlines && gcloud builds submit -t ${imageTag} ."""
       }
     }
   }
